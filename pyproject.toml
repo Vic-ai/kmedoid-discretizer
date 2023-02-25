@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "KmedoidDiscritizer"
-version = "0"
-description = "Description of your library"
-authors = ["Authors"]
+name = "kmedoid-discretizer"
+version = "0.0.1"
+description = "Adaptative Kmedoid Discretizer for numerical feature engineering (Sklearn compatible). Aternative to KBinsDiscretizer for binning."
+authors = ["Marvin Martin", "Daniel Nowak"]
 
 [tool.poetry-version-plugin]
 source = "git-tag"
