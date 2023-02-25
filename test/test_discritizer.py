@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn_extra.cluster import KMedoids
 
-from kmedoid_discretizer.discretizer import KmedoidDiscritizer
+from kmedoid_discretizer.discretizer import KmedoidDiscretizer
 from kmedoid_discretizer.utils.utils_discretizer import (
     Backend,
     Encode,
@@ -15,9 +15,9 @@ from kmedoid_discretizer.utils.utils_discretizer import (
 )
 
 
-class TestKmedoidDiscritizer(unittest.TestCase):
+class TestKmedoidDiscretizer(unittest.TestCase):
     """
-    TestKmedoidDiscritizer test the main components of KmedoidDiscritizer, including:
+    TestKmedoidDiscretizer test the main components of KmedoidDiscretizer, including:
     - I/O
     - Backend
     - Data Shape
@@ -28,7 +28,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_kmedoid_discretizer_wrong_backend(self):
         """Test non-existing backend"""
         with self.assertRaises(Exception) as e:
-            KmedoidDiscritizer(2, backend="DO_NOT_EXIST")
+            KmedoidDiscretizer(2, backend="DO_NOT_EXIST")
 
         self.assertEqual(
             str(e.exception),
@@ -38,7 +38,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_kmedoid_discretizer_wrong_str_bins(self):
         """Test wrong n_bins input"""
         with self.assertRaises(Exception) as e:
-            KmedoidDiscritizer("test")
+            KmedoidDiscretizer("test")
 
         self.assertEqual(
             str(e.exception),
@@ -48,7 +48,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_kmedoid_discretizer_wrong_strategy(self):
         """Test wrong strategy input"""
         with self.assertRaises(Exception) as e:
-            KmedoidDiscritizer(strategy="DO_NOT_EXIST")
+            KmedoidDiscretizer(strategy="DO_NOT_EXIST")
 
         self.assertEqual(
             str(e.exception),
@@ -58,7 +58,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_kmedoid_discretizer_wrong_encode(self):
         """Test wrong strategy encoding"""
         with self.assertRaises(Exception) as e:
-            KmedoidDiscritizer(encode="DO_NOT_EXIST")
+            KmedoidDiscretizer(encode="DO_NOT_EXIST")
 
         self.assertEqual(
             str(e.exception),
@@ -69,7 +69,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
         """Test empty input dataframe"""
         x = pd.DataFrame.from_dict({})
         with self.assertRaises(Exception) as e:
-            kd = KmedoidDiscritizer()
+            kd = KmedoidDiscretizer()
             kd.fit_transform(x)
 
         self.assertEqual(str(e.exception), "Cannot provide an empty dataframe df.")
@@ -78,7 +78,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
         """Test test data has same feature column numbers as train data"""
         x = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
         x_test = pd.DataFrame.from_dict({f"feature_{i}": [1, 4] for i in range(4)})
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         discretizer.fit_transform(x)
         with self.assertRaises(Exception) as e:
             discretizer.transform(x_test)
@@ -91,7 +91,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_validate_X_wrong_type_list(self):
         """Test input type (list is not supported)"""
         x = [[1, 2], [2, 3]]
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         with self.assertRaises(Exception) as e:
             discretizer._validate_X(x)
 
@@ -103,7 +103,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_validate_n_bins_unmatch(self):
         """Test invalid number of bins"""
         x = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
-        discretizer = KmedoidDiscritizer([1, 2])
+        discretizer = KmedoidDiscretizer([1, 2])
         with self.assertRaises(Exception) as e:
             discretizer._validate_n_bins(x)
 
@@ -115,15 +115,15 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_onehot_encoding_shape(self):
         """Test onehot encoding output shape"""
         x = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
-        discretizer = KmedoidDiscritizer(2, encode=Encode.ONEHOT_DENSE)
-        X_discrite = discretizer.fit_transform(x)
+        discretizer = KmedoidDiscretizer(2, encode=Encode.ONEHOT_DENSE)
+        X_discrete = discretizer.fit_transform(x)
 
-        assert X_discrite.shape == (3, 7)
+        assert X_discrete.shape == (3, 7)
 
     def test_ray_backend(self):
         """Test ray backend"""
         x = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
-        discretizer = KmedoidDiscritizer(backend="ray", verbose=True)
+        discretizer = KmedoidDiscretizer(backend="ray", verbose=True)
         discretizer = discretizer.fit(x)
 
         assert discretizer.was_ray_initialized == True
@@ -133,7 +133,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
         X = pd.DataFrame.from_dict(
             {f"feature_{i}": [{"Wrong"}, 2, 3] for i in range(3)}
         )
-        discretizer = KmedoidDiscritizer(1)
+        discretizer = KmedoidDiscretizer(1)
         with self.assertRaises(Exception) as e:
             discretizer = discretizer.fit(X)
         self.assertEqual(
@@ -146,7 +146,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
         X = pd.DataFrame.from_dict(
             {f"feature_{i}": [{"Wrong"}, 2, 3] for i in range(3)}
         )
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         with self.assertRaises(Exception) as e:
             discretizer = discretizer.fit(X)
 
@@ -155,7 +155,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_fit(self):
         """Test fit function"""
         X = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         discretizer = discretizer.fit(X)
         expected_discretizer__dict__ = {
             "strategy": Strategy.K_MEDOIDS_PLUS,
@@ -181,14 +181,14 @@ class TestKmedoidDiscritizer(unittest.TestCase):
             "columns": ["feature_0", "feature_1", "feature_2"],
         }
 
-        assert type(discretizer) == KmedoidDiscritizer
+        assert type(discretizer) == KmedoidDiscretizer
         assert str(discretizer.__dict__) == str(expected_discretizer__dict__)
 
     def test_transform(self):
         """Test transform function"""
         X = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
         y = pd.DataFrame.from_dict({f"feature_{i}": [1, 1, 0] for i in range(3)})
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         discretizer = discretizer.fit(X)
         y_transform = discretizer.transform(y)
 
@@ -201,7 +201,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
     def test_fit_transform(self):
         """Test fit_transform function"""
         X = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
-        discretizer = KmedoidDiscritizer()
+        discretizer = KmedoidDiscretizer()
         x_transform = discretizer.fit_transform(X)
 
         assert x_transform.to_dict() == {
@@ -215,7 +215,7 @@ class TestKmedoidDiscritizer(unittest.TestCase):
         X = pd.DataFrame.from_dict({f"feature_{i}": [1, 2, 3] for i in range(3)})
         y = pd.DataFrame.from_dict({f"feature_{i}": [1, 1, 0] for i in range(3)})
         num_features = X.columns.to_list()
-        numeric_transformer = Pipeline([("discretizer", KmedoidDiscritizer())])
+        numeric_transformer = Pipeline([("discretizer", KmedoidDiscretizer())])
         preprocessor = ColumnTransformer([("num", numeric_transformer, num_features)])
         clf = Pipeline(
             steps=[

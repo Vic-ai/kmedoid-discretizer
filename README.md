@@ -1,14 +1,14 @@
-# kmedoid-discritizer
-Adaptative Kmedoid discritizer for numerical feature engineering.
+# kmedoid-discretizer
+Adaptative Kmedoid discretizer for numerical feature engineering.
 
 [![Poetry](https://img.shields.io/badge/packaging-poetry-cyan.svg)](https://python-poetry.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-%5E0.24.2-blue)](https://github.com/scikit-learn/scikit-learn)
 [![Python](https://img.shields.io/badge/python-%3E%3D%203.7.13%2C%20%3C%3D%203.9.16-blue)](https://www.python.org/downloads/release/python-3916/)
-[![Test](https://github.com/Vic-ai/KmedoidDiscritizer/actions/workflows/.test.yml/badge.svg)](https://github.com/Vic-ai/KmedoidDiscritizer/actions/workflows/.test.yml)
+[![Test](https://github.com/Vic-ai/kmedoid-discretizer/actions/workflows/.test.yml/badge.svg)](https://github.com/Vic-ai/kmedoid-discretizer/actions/workflows/.test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-kmedoid-discritizer (Adaptative Kmedoid discritizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm compatible sklearn (Alternative to sklearn KBinsDiscretizer).
+kmedoid-discretizer (Adaptative Kmedoid discretizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm compatible sklearn (Alternative to sklearn KBinsDiscretizer).
 With this implemenation, we can have:
 - A custom number of bins for each numeral feature. Kmedoids will be run for each columns.
 - Adapt the number of bins dynamically whenever this one is two high (more precesly when two centroids are assigned to the same data point.)
@@ -18,11 +18,11 @@ With this implemenation, we can have:
 ## Install
 
 ```
-pip install git+ssh://git@github.com/Vic-ai/kmedoid-discritizer.git
+pip install git+ssh://git@github.com/Vic-ai/kmedoid-discretizer.git
 ```
 
 ### Play with the code and run it locally without pip 
-`git clone git@github.com:Vic-ai/kmedoid-discritizer.git `
+`git clone git@github.com:Vic-ai/kmedoid-discretizer.git `
 - Download poetry (`make poetry-download`). See poetry doc: https://python-poetry.org/docs/
 - Install the dev requirements into a virtualenv. (`make install`)
 
@@ -41,13 +41,13 @@ X_test = pd.DataFrame.from_dict({f"feature": [0, 2, 5]})
 #### Ordinal encoding
 
 ```python
-discritizer = KmedoidDiscritizer(2)
+discretizer = KmedoidDiscretizer(2)
 # discritize X into 2 bins => 1 and 2 will go in bin 0 and 3 in bin 1.
-X_discrite = discritizer.fit_transform(X)
-print(X_discrite)
+X_discrete = discretizer.fit_transform(X)
+print(X_discrete)
 # discritize X_test into 2 bins => 0 and 2 will go in bin 0 and 5 in bin 1.
-X_test_discrite = discritizer.transform(X_test)
-print(X_test_discrite)
+X_test_discrete = discretizer.transform(X_test)
+print(X_test_discrete)
 ```
 ```bash
    feature
@@ -63,13 +63,13 @@ print(X_test_discrite)
 
 ### Onehot encoding
 ```python
-discritizer = KmedoidDiscritizer(2, encoding="onehot-dense")
+discretizer = KmedoidDiscretizer(2, encoding="onehot-dense")
 # discritize X into 2 bins => 1 and 2 will go in bin 0 and 3 in bin 1.
-X_discrite = discritizer.fit_transform(X)
-print(X_discrite)
+X_discrete = discretizer.fit_transform(X)
+print(X_discrete)
 # discritize X_test into 2 bins => 0 and 2 will go in bin 0 and 5 in bin 1.
-X_test_discrite = discritizer.transform(X_test)
-print(X_test_discrite)
+X_test_discrete = discretizer.transform(X_test)
+print(X_test_discrete)
 ```
 ```bash
    index    0    1
@@ -95,8 +95,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
-from kmedoid_discritizer.discritizer import KmedoidDiscritizer
-from kmedoid_discritizer.utils.utils_external import PandasSimpleImputer
+from kmedoid_discretizer.discretizer import KmedoidDiscretizer
+from kmedoid_discretizer.utils.utils_external import PandasSimpleImputer
 
 np.random.seed(0)
 ```
@@ -120,7 +120,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 numeric_transformer = Pipeline(
     steps=[
         ("imputer", PandasSimpleImputer(strategy="median")),
-        ("discritizer", KmedoidDiscritizer(
+        ("discretizer", KmedoidDiscretizer(
                             n_bins=[8, 5, 7, 7],
                             encode="onehot-dense",
                             backend="serial",

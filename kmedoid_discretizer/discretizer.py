@@ -35,9 +35,9 @@ logging.basicConfig(
 )
 
 
-class KmedoidDiscritizer(TransformerMixin, BaseEstimator):
+class KmedoidDiscretizer(TransformerMixin, BaseEstimator):
     """
-    KmedoidDiscritizer (Adaptative Kmedoid discretizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm from sklearn.
+    KmedoidDiscretizer (Adaptative Kmedoid discretizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm from sklearn.
     With this implemenation, we can have:
     - A custom number of bins for each numeral feature. Kmedoids will be run for each columns.
     - Adapt the number of bins dynamically whenever this one is two high (more precesly when two centroids are assigned to the same data point.)
@@ -63,7 +63,7 @@ class KmedoidDiscritizer(TransformerMixin, BaseEstimator):
         verbose: bool = False,
     ):
         """
-        KmedoidDiscritizer __init__ method.
+        KmedoidDiscretizer __init__ method.
 
         Args:
             n_bins (Union[List[int], str, int]): number of bins for each/all feature columns. Default is "auto" (compute automatically n_bins based on input data).
@@ -110,7 +110,7 @@ class KmedoidDiscritizer(TransformerMixin, BaseEstimator):
         self,
         X: Union[pd.DataFrame, np.ndarray],
         y: Optional[Union[pd.DataFrame, np.ndarray]] = None,
-    ) -> KmedoidDiscritizer:
+    ) -> KmedoidDiscretizer:
         """Fit the estimator.
 
         Args:
@@ -118,7 +118,7 @@ class KmedoidDiscritizer(TransformerMixin, BaseEstimator):
             y (Optional[Union[pd.DataFrame, np.ndarray]]): Label dataset. Default None.
 
         Returns:
-            KmedoidDiscritizer: KmedoidDiscritizer object containing kmedoids object for all features.
+            KmedoidDiscretizer: KmedoidDiscretizer object containing kmedoids object for all features.
         """
         # Validate Data
         df = self._validate_X(X)
