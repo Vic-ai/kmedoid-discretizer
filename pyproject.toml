@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "KmedoidDiscritizer"
+version = "0"
+description = "Description of your library"
+authors = ["Authors"]
+
+[tool.poetry-version-plugin]
+source = "git-tag"
+
+[tool.poetry.dependencies]
+python = ">= 3.7.13, <= 3.9.16"
+numpy = "^1.20.3"
+pandas = "^1.2.4"
+scikit-learn = "^0.24.2"
+scikit-learn-extra = "^0.2.0"
+ray = "^1.11.1"
+protobuf = "^3.20.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+pre-commit = "^2.16.0"
+pytest = "^6.2.5"
+coverage = "^6.2.0"
+isort = "^5.10.1"
+pytest-cov = "^4.0.0"
+coverage-badge = "^1.1.0"
+
+[tool.black]
+color = true
+
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.isort]
+known_typing = ["typing", "types", "typing_extensions", "mypy", "mypy_extensions"]
+sections = ["FUTURE", "TYPING", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+include_trailing_comma = true
+profile = "black"
+multi_line_output = 3
+indent = 4
+color_output = true
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
