@@ -1,4 +1,4 @@
-# KmedoidDiscritizer
+# kmedoid-discritizer
 Adaptative Kmedoid discritizer for numerical feature engineering.
 
 [![Poetry](https://img.shields.io/badge/packaging-poetry-cyan.svg)](https://python-poetry.org/)
@@ -8,7 +8,7 @@ Adaptative Kmedoid discritizer for numerical feature engineering.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-KmedoidDiscritizer (Adaptative Kmedoid discritizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm compatible sklearn (Alternative to sklearn KBinsDiscretizer).
+kmedoid-discritizer (Adaptative Kmedoid discritizer) allows to discritize numerical feature into `n_bins` using Kmedoids Clustering algrorithm compatible sklearn (Alternative to sklearn KBinsDiscretizer).
 With this implemenation, we can have:
 - A custom number of bins for each numeral feature. Kmedoids will be run for each columns.
 - Adapt the number of bins dynamically whenever this one is two high (more precesly when two centroids are assigned to the same data point.)
@@ -18,11 +18,11 @@ With this implemenation, we can have:
 ## Install
 
 ```
-pip install git+ssh://git@github.com/Vic-ai/KmedoidDiscritizer.git
+pip install git+ssh://git@github.com/Vic-ai/kmedoid-discritizer.git
 ```
 
 ### Play with the code and run it locally without pip 
-`git clone git@github.com:Vic-ai/KmedoidDiscritizer.git `
+`git clone git@github.com:Vic-ai/kmedoid-discritizer.git `
 - Download poetry (`make poetry-download`). See poetry doc: https://python-poetry.org/docs/
 - Install the dev requirements into a virtualenv. (`make install`)
 
